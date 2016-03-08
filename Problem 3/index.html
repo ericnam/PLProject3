@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="Business.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- <script type="text/javascript" src="Business.js"></script> -->
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+	<div class="col-lg-6 col-lg-offset-3">
+		<div class="row text-center" id="radiogroup">
+			<label class="radio-inline">
+				<input class="radio" id="rdoCustomer" type="radio" name="choice" value="customer" checked="checked"> Customer
+			</label>
+			<label class="radio-inline">
+				<input class="radio" id="rdoEmployee" type="radio" name="choice" value="employee"> Employee<br>
+			</label>
+			<br>
+		</div>
+		<div class="row text-center">
+			<form>
+				<div class="form-group">
+					<label id="firstNameLabel" for="firstName">First Name:</label>
+					<input type="text" class="form-control" id="firstName" placeholder="First Name" required="true">
+				</div>				
+				<div class="form-group">
+					<label id="lastNameLabel" for="lastName">Last Name:</label>
+					<input type="text" class="form-control" id="LastName" placeholder="Last Name" required>
+				</div>
+				<div class="form-group">
+					<label id="emailLabel" for="email">Email:</label>
+					<input type="email" class="form-control" id="email" placeholder="Email" required>
+				</div>
+				<div class="form-group">
+					<label id="numberLabel" for="number">Customer Number:</label>
+					<input type="text" class="form-control" id="number" placeholder="Customer Number" required>
+				</div>
+				<button id="btnSubmit" type="button" class="btn btn-primary">Submit</button>
+				<div class="form-group">
+					<textarea id="results" class="form-control" rows="5" placeholder="Your results will show here" readonly></textarea>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('.radio').on('change', function() {
+        if ($(this).val() === "customer") {
+            $('#numberLabel').html('Customer Number: ');
+            $('#number').attr('placeholder', 'Customer Number');
+        }
+        else {
+            $('#numberLabel').html('Social Security Number: ');
+            $('#number').attr('placeholder', 'Social Security Number');
+        }
+    });
+
+    $('#btnSubmit').on('click', function() {
+        var output;
+        if ($('input:checked').val() === "customer") {
+        	output = Object.create(Customer);
+			output.run('$firstName')($('#firstName').val());
+			output.run('$lastName')($('#firstName').val());
+			output.run('$email')($('#email').val());
+			output.run('$customerNumber')($('#number').val());
+        }
+        else {
+        	output = Object.create(Employee);
+			output.run('$firstName')($('#firstName').val());
+			output.run('$lastName')($('#firstName').val());
+			output.run('$email')($('#email').val());
+			output.run('$socialSecurityNumber')($('#number').val());
+        }
+        $('#results').val(output.toString());
+
+        // return false;
+    })
+})
+</script>
+</body>
+</html>
